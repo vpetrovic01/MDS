@@ -1,6 +1,6 @@
 <script>
-  import { userBalances } from "../stores/userBalances.ts";
-  import { formatNumberToPriceString } from "../utils/stringFormatter.ts";
+  import { userBalances } from "../../stores/userBalances.ts";
+  import { formatNumberToPriceString } from "../../utils/stringFormatter.ts";
 </script>
 
 <div

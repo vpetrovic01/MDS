@@ -1,4 +1,4 @@
-export const userBalancesInit = [
+export const USERBALANCESINIT = [
   {
     id: "1",
     balances: [

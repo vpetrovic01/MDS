@@ -1,11 +1,11 @@
 import { writable, type Writable } from "svelte/store";
-import { userBalancesInit } from "../constants/userBalancesInit.ts";
+import { USERBALANCESINIT } from "../constants/userBalancesInit.ts";
 import { RATES } from "../constants/rates.ts";
 
 export const userBalances: Writable<Array<UserBalance>> =
-  writable(userBalancesInit);
+  writable(USERBALANCESINIT);
 
-export const decreaseBalance = (currency: string, amount: number): void => {
+const decreaseBalance = (currency: string, amount: number): void => {
   userBalances.update((currentUsersBalances) => {
     const balanceToUpdate = currentUsersBalances[0].balances.find(
       (balance) => balance.id === currency
@@ -30,7 +30,7 @@ export const calculateRate = (
   return fromRate! / toRate!;
 };
 
-export const multiplyBalance = (
+const multiplyBalance = (
   currency: string,
   amount: number,
   rate: number
@@ -46,12 +46,19 @@ export const multiplyBalance = (
   });
 };
 
-export const updateHoldersMDS = (
-  currency: string,
+export const getProvision = (
   amount: number,
-  rateToMDS: number
-): void => {
-  let mds = amount * rateToMDS;
+  fromCurrency: string,
+  toCurrency: string
+) => {
+  let rate = calculateRate(fromCurrency, toCurrency);
+  let mds = amount * rate;
+  let provision = mds * 0.0001;
+  return Math.ceil(provision * 100) / 100;
+};
+
+const updateHoldersMDS = (amount: number, rate: number): void => {
+  let mds = amount * rate;
   let provision = mds * 0.0001;
   let distributionMDS = provision * 100;
   // mds * 0.01 (0.0001/*100)
@@ -69,4 +76,15 @@ export const updateHoldersMDS = (
     });
     return [...holders];
   });
+};
+
+export const performSwap = (
+  fromCurrency: string,
+  toCurrency: string,
+  amount: number
+): void => {
+  decreaseBalance(fromCurrency, amount);
+  let rate = calculateRate(fromCurrency, toCurrency);
+  multiplyBalance(toCurrency, amount, rate);
+  updateHoldersMDS(amount, rate);
 };
