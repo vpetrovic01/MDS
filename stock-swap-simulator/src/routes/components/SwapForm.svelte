@@ -5,6 +5,7 @@
     performSwap,
     calculateRate,
     getProvision,
+    getCurrencyAmount,
   } from "../../stores/userBalances.js";
   import { formatNumberToPriceString } from "../../utils/stringFormatter.ts";
 
@@ -18,11 +19,15 @@
     currentBalances = x;
   });
 
-  $: isDisabled = amount == 0;
+  $: isDisabled = amount == 0 || amount > getCurrencyAmount(fromCurrency);
 
   function handleSwap(event: Event) {
     event.preventDefault();
-    performSwap(fromCurrency, toCurrency, amount);
+    if (amount <= getCurrencyAmount(fromCurrency)) {
+      performSwap(fromCurrency, toCurrency, amount);
+    } else {
+      isDisabled = true;
+    }
   }
 
   function restrictedInput(event: Event) {
@@ -30,6 +35,10 @@
     target.value = target.value
       .replace(/[^0-9.]/g, "")
       .replace(/(\..*)\./g, "$1");
+
+    if (parseFloat(target.value) > getCurrencyAmount(fromCurrency)) {
+      target.value = getCurrencyAmount(fromCurrency).toString();
+    }
   }
 </script>
 
@@ -42,7 +51,7 @@
   <h2 class="text-2xl font-bold">Perform a Swap</h2>
 
   <form on:submit={handleSwap}>
-    <label class="flex flex-col">
+    <label class="flex flex-col py-1">
       From (Symbol):
       <select
         class="w-full border-2 border-gray-300 rounded-lg px-1 h-10"
@@ -56,7 +65,7 @@
       </select>
     </label>
 
-    <label class="flex flex-col">
+    <label class="flex flex-col py-1">
       To (Symbol):
       <select
         class="w-full border-2 border-gray-300 rounded-lg px-1 h-10"
@@ -70,7 +79,7 @@
       </select>
     </label>
 
-    <label class="flex flex-col">
+    <label class="flex flex-col py-1">
       Amount to Swap (units of 'From' symbol):
       <input
         class="w-full border-2 border-gray-300 rounded-lg px-2 h-10"
@@ -78,7 +87,6 @@
         inputmode="decimal"
         on:input={restrictedInput}
         bind:value={amount}
-        min="0"
         step="any"
       />
     </label>

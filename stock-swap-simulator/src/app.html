@@ -5,15 +5,63 @@
     <link rel="icon" href="/mds-favicon.png" />
     <title>MDS | Stock Swap Simulator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
     %sveltekit.head%
   </head>
-  <header class="bg-slate-500">
-    <div>Home</div>
+
+  <header class="bg-[#4A4A4A] p-4">
+    <div class="flex justify-between items-center">
+      <a href="https://www.mds.rs/">
+        <div>
+          <img src="/MDS_LOGO.svg" alt="Company logo " class="h-12" />
+        </div>
+      </a>
+      <a rel="stylesheet" href="https://blokadnedonacije.rs/">
+        <div
+          class="text-[#4A4A4A] font-semibold bg-white px-4 py-2 rounded-md hover:bg-[#C8102E] hover:text-white shadow-md duration-200 ease-in-out"
+        >
+          Home
+        </div>
+      </a>
+    </div>
   </header>
+
   <body data-sveltekit-preload-data="hover">
-    <div class="bg-slate-600 py-10">%sveltekit.body%</div>
+    <div class="bg-[#E5E5E5] p-8">%sveltekit.body%</div>
   </body>
-  <footer class="bg-slate-600 text-white flex justify-center items-center py-4">
-    @vpetrovic
+
+  <footer
+    class="bg-gradient-to-t from-[#f4cdcd] to-[#E5E5E5] text-[#C8102E] flex flex-col justify-center items-center pt-4 pb-2 space-y-4"
+  >
+    <div class="flex space-x-6">
+      <a
+        href="https://www.linkedin.com/in/vladimir-p-petrovic/"
+        target="_blank"
+        class="hover:text-blue-500 hover:shadow-white"
+      >
+        <i class="fab fa-linkedin fa-2x"></i>
+      </a>
+      <a
+        href="https://www.instagram.com/mds_ing/"
+        target="_blank"
+        class="hover:text-pink-500"
+      >
+        <i class="fab fa-instagram fa-2x"></i>
+      </a>
+      <a
+        href="https://www.mds.rs/srb/kontakt.html"
+        target="_blank"
+        class="hover:text-yellow-500"
+      >
+        <i class="fas fa-envelope fa-2x"></i>
+      </a>
+    </div>
+
+    <span class="text-center hover:text-white">
+      <a href="https://github.com/vpetrovic01"> @vpetrovic01</a>
+    </span>
   </footer>
 </html>

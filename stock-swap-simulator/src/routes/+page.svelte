@@ -5,7 +5,7 @@
 </script>
 
 <div
-  class="w-full max-w-5xl mx-auto px-4 lg:px-12 py-8 border-4 shadow-lg bg-white rounded-lg"
+  class="w-full max-w-5xl mx-auto px-4 lg:px-12 py-8 border-4 shadow-lg bg-white rounded-lg text-base sm:text-sm md:text-base lg:text-lg"
 >
   <h1 class="text-3xl font-bold">
     Stock Swap Simulator with MDS Fee Distribution

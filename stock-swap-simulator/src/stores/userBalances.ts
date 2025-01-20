@@ -1,4 +1,4 @@
-import { writable, type Writable } from "svelte/store";
+import { get, writable, type Writable } from "svelte/store";
 import { USERBALANCESINIT } from "../constants/userBalancesInit.ts";
 import { RATES } from "../constants/rates.ts";
 
@@ -87,4 +87,13 @@ export const performSwap = (
   let rate = calculateRate(fromCurrency, toCurrency);
   multiplyBalance(toCurrency, amount, rate);
   updateHoldersMDS(amount, rate);
+};
+
+export const getCurrencyAmount = (fromCurrency: string): number => {
+  const currentUserBalances = get(userBalances);
+  return (
+    currentUserBalances[0]?.balances.find(
+      (balance) => balance.id === fromCurrency
+    )?.value || 0
+  );
 };
