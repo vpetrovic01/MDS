@@ -1,24 +1,6 @@
-# create-svelte
+# Stock Swap Simulator
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
-
-Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+To run the project type:
 
 ```bash
 npm run dev
@@ -27,32 +9,64 @@ npm run dev
 npm run dev -- --open
 ```
 
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
+## Project Structure
 
-## Building
+The project is organized into several key folders and components:
 
-To build your library:
+### Constants
 
-```bash
-npm run package
+Two main tables are defined as constants in the constants folder:
+
+- **User Balances**: Tracks the amount of available currencies users can trade.
+- **Rates**: Specifies the exchange rates for trading.
+
+The constants are exported to the store (stores/userBalances), where core stock exchange functions are implemented. These functions are further exported for use in the form.
+
+## Example of Rates:
+
+**Rates are expressed relative to MDS as the base currency.**
+
+```javascript
+const RATES = [
+  { id: "AAPL", rate: 30 },
+  { id: "TSLA", rate: 45 },
+  { id: "AMZN", rate: 60 },
+  { id: "MDS", rate: 1 },
+];
 ```
 
-To create a production version of your showcase app:
+### Components
 
-```bash
-npm run build
-```
+The components folder includes three main components, that are implemented via **+page.svelte**:
 
-You can preview the production build with `npm run preview`.
+**1. Swap Form**
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- Handles the currency trading process.
+- Imports necessary functions from the store.
+- Prevents trading one currency for the same currency (e.g., MDS to MDS).
+- Validates the input:
+  - Disallows negative numbers.
+  - Ensures the amount entered is less than or equal to the available balance.
+- Includes a Swap Button with color signals:
+  - Green: Transaction is valid.
+  - Red: Transaction is invalid.
 
-## Publishing
+**2. Current Balance**
 
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
+- Displays the available amount of each currency for the user.
 
-To publish your library to [npm](https://www.npmjs.com):
+**3. Holders Balance**
 
-```bash
-npm publish
-```
+- Displays the balance of currency holders.
+
+### Utilities
+
+The utils folder includes a stringFormatter function used for formatting numbers to two decimal places.
+
+### Static Assets
+
+The static folder contains logos used for designing the title and header.
+
+### Styling
+
+This project uses Tailwind CSS for styling.
